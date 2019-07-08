@@ -1,0 +1,44 @@
+{
+  "name": "linay-gendiff",
+  "version": "1.0.0",
+  "description": "Проект для Хекслет, уровень 2",
+  "main": "dist/index.js",
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cross-env NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build",
+    "eslint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/linarsy/frontend-project-lvl2.git"
+  },
+  "keywords": [
+    "hexlet",
+    "gendiff"
+  ],
+  "author": "Ala Yakushava",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/linarsy/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/linarsy/frontend-project-lvl2#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.0",
+    "@babel/node": "^7.5.0",
+    "@babel/preset-env": "^7.5.0",
+    "babel-eslint": "^10.0.2",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.17.2"
+  }
+}
