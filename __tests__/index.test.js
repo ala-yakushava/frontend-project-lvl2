@@ -2,15 +2,24 @@ import fs from 'fs';
 import path from 'path';
 import genDiff from '../src';
 
-test('gendiff', () => {
-  const filepath1 = path.resolve(__dirname, '__fixtures__/before.json');
-  const filepath2 = path.resolve(__dirname, '__fixtures__/after.json');
-  const filepath3 = path.resolve(__dirname, '__fixtures__/before.yml');
-  const filepath4 = path.resolve(__dirname, '__fixtures__/after.yml');
-  const filepath = path.resolve(__dirname, '__fixtures__/diff.txt');
-  const result = fs.readFileSync(filepath, 'utf8');
+const resultPath = path.resolve(__dirname, '__fixtures__/diff.txt');
+const result = fs.readFileSync(resultPath, 'utf8');
+const beforePathJson = path.resolve(__dirname, '__fixtures__/before.json');
+const afterPathJson = path.resolve(__dirname, '__fixtures__/after.json');
+const beforePathYml = path.resolve(__dirname, '__fixtures__/before.yml');
+const afterPathYml = path.resolve(__dirname, '__fixtures__/after.yml');
+const beforePathIni = path.resolve(__dirname, '__fixtures__/before.ini');
+const afterPathIni = path.resolve(__dirname, '__fixtures__/after.ini');
 
-  expect(genDiff(filepath1, filepath2)).toBe(result);
-  expect(genDiff(filepath3, filepath4)).toBe(result);
-  expect(genDiff(filepath1, filepath4)).toBe(result);
-});
+const filepaths = [
+  [beforePathJson, afterPathJson],
+  [beforePathYml, afterPathYml],
+  [beforePathIni, afterPathIni],
+];
+
+test.each(filepaths)(
+  'gendiff',
+  (beforePath, afterPath) => {
+    expect(genDiff(beforePath, afterPath)).toBe(result);
+  },
+);
