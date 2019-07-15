@@ -1,37 +1,24 @@
 import commander from 'commander';
 import fs from 'fs';
 import path from 'path';
-import _ from 'lodash';
-import parsers from './parsers';
+import parse from './parse';
+import buildAst from './buildAst';
+import render from './render';
 
 const getData = (config) => {
   const filepath = path.resolve(config);
   const format = path.extname(config);
   const data = fs.readFileSync(filepath, 'utf8');
 
-  return parsers(data, format);
+  return parse(data, format);
 };
 
 const genDiff = (firstConfig, secondConfig) => {
-  const obj1 = getData(firstConfig);
-  const obj2 = getData(secondConfig);
-  const keys = _.union(_.keys(obj1), _.keys(obj2));
+  const data1 = getData(firstConfig);
+  const data2 = getData(secondConfig);
+  const diff = buildAst(data1, data2);
 
-  const func = (item) => {
-    if (obj1[item] === obj2[item]) {
-      return `    ${item}: ${obj1[item]}`;
-    }
-    if (_.has(obj1, item) && !_.has(obj2, item)) {
-      return `  - ${item}: ${obj1[item]}`;
-    }
-    if (!_.has(obj1, item) && _.has(obj2, item)) {
-      return `  + ${item}: ${obj2[item]}`;
-    }
-    return `  + ${item}: ${obj2[item]}\n  - ${item}: ${obj1[item]}`;
-  };
-
-  const str = _.map(keys, func).join('\n');
-  return `\n{\n${str}\n}\n`;
+  return render(diff);
 };
 
 const program = () => {
@@ -40,7 +27,10 @@ const program = () => {
     .description('Compares two configuration files and shows a difference.')
     .option('-f, --format [type]', 'output format')
     .arguments('<firstConfig> <secondConfig>')
-    .action((firstConfig, secondConfig) => console.log(genDiff(firstConfig, secondConfig)));
+    .action((firstConfig, secondConfig) => {
+      const result = `\n${genDiff(firstConfig, secondConfig)}\n`;
+      console.log(result);
+    });
 
   commander.parse(process.argv);
 };

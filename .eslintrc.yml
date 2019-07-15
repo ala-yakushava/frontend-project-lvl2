@@ -3,7 +3,6 @@
 plugins:
   - jest
   - babel
-  - lodash
 
 env:
   node: true
@@ -14,7 +13,6 @@ parser: babel-eslint
 extends:
   - 'airbnb-base'
   - 'plugin:jest/recommended'
-  - 'plugin:lodash/canonical'
 
 rules:
   no-console: 0
