@@ -1,5 +1,5 @@
-const convert = (item, operator, gap) => {
-  if (item instanceof Object && operator !== 'compare') {
+const convert = (item, type, gap) => {
+  if (item instanceof Object && type !== 'compare') {
     const entries = Object.entries(item);
     const func = ([key, value]) => `{\n${gap}      ${key}: ${value}\n${gap}  }`;
     return entries.map(func);
@@ -9,12 +9,12 @@ const convert = (item, operator, gap) => {
 };
 
 const inter = (diff, gapCount) => {
-  const func = ([operator, key, value1, value2 = null]) => {
+  const func = ([type, key, value1, value2 = null]) => {
     const gap = '  '.repeat(gapCount);
-    const value = convert(value1, operator, gap);
-    const replacedValue = convert(value2, operator, gap);
+    const value = convert(value1, type, gap);
+    const replacedValue = convert(value2, type, gap);
 
-    switch (operator) {
+    switch (type) {
       case 'compare':
         return `${gap}  ${key}: {\n${inter(value, gapCount + 2)}\n${gap}  }`;
       case 'equals':

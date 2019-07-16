@@ -18,10 +18,19 @@ const getFilepaths = () => {
 };
 
 test.each(getFilepaths())(
-  'gendiff',
+  'gendiff tree',
   (beforePath, afterPath) => {
-    const resultPath = path.resolve(__dirname, '__fixtures__/diff.txt');
+    const resultPath = path.resolve(__dirname, '__fixtures__/diff-tree.txt');
     const result = fs.readFileSync(resultPath, 'utf8');
-    expect(genDiff(beforePath, afterPath)).toBe(result);
+    expect(genDiff(beforePath, afterPath, 'tree')).toBe(result);
+  },
+);
+
+test.each(getFilepaths())(
+  'gendiff plain',
+  (beforePath, afterPath) => {
+    const resultPath = path.resolve(__dirname, '__fixtures__/diff-plain.txt');
+    const result = fs.readFileSync(resultPath, 'utf8');
+    expect(genDiff(beforePath, afterPath, 'plain')).toBe(result);
   },
 );
