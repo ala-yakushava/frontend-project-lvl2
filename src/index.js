@@ -5,9 +5,9 @@ import parse from './parsers';
 import render from './formatters';
 import buildAst from './buildAst';
 
-const getData = (configPath) => {
-  const filepath = path.resolve(configPath);
-  const ext = path.extname(configPath);
+const getData = (config) => {
+  const filepath = path.resolve(config);
+  const ext = path.extname(config);
   const data = fs.readFileSync(filepath, 'utf8');
 
   return parse(data, ext);
@@ -28,8 +28,8 @@ const program = () => {
     .option('-f, --format <type>', 'output format [tree]', 'tree')
     .arguments('<firstConfig> <secondConfig>')
     .action((firstConfig, secondConfig) => {
-      const result = `\n${genDiff(firstConfig, secondConfig, commander.format)}\n`;
-      console.log(result);
+      const result = genDiff(firstConfig, secondConfig, commander.format);
+      console.log(`\n${result}\n`);
     });
 
   commander.parse(process.argv);

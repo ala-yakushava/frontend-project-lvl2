@@ -1,9 +1,11 @@
-import renderDefault from './renderDefault';
+import renderTree from './renderTree';
 import renderPlain from './renderPlain';
+import renderJson from './renderJson';
 
 const formatters = {
-  tree: renderDefault,
+  tree: renderTree,
   plain: renderPlain,
+  json: renderJson,
 };
 
 export default (diff, format) => formatters[format](diff);

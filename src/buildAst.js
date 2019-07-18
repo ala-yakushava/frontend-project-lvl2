@@ -18,7 +18,7 @@ const buildAst = (data1, data2) => {
       return ['add', key, value2];
     }
     if (value1 === value2) {
-      return ['equals', key, value1];
+      return ['equal', key, value1];
     }
     return ['replace', key, value1, value2];
   };
