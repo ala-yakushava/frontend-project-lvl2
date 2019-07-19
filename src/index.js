@@ -25,7 +25,7 @@ const program = () => {
   commander
     .version('1.1.0')
     .description('Compares two configuration files and shows a difference.')
-    .option('-f, --format <type>', 'output format [tree]', 'tree')
+    .option('-f, --format <type>', 'output format [pretty]', 'pretty')
     .arguments('<firstConfig> <secondConfig>')
     .action((firstConfig, secondConfig) => {
       const result = genDiff(firstConfig, secondConfig, commander.format);

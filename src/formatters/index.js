@@ -1,9 +1,9 @@
-import renderTree from './renderTree';
+import renderPretty from './renderPretty';
 import renderPlain from './renderPlain';
 import renderJson from './renderJson';
 
 const formatters = {
-  tree: renderTree,
+  pretty: renderPretty,
   plain: renderPlain,
   json: renderJson,
 };
