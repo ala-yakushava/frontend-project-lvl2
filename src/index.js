@@ -1,16 +1,45 @@
-import commander from 'commander';
 import fs from 'fs';
 import path from 'path';
+import has from 'lodash/has';
+import union from 'lodash/union';
 import parse from './parsers';
 import render from './formatters';
-import buildAst from './buildAst';
 
 const getData = (config) => {
   const filepath = path.resolve(config);
-  const ext = path.extname(config);
+  const type = path.extname(config).slice(1);
   const data = fs.readFileSync(filepath, 'utf8');
 
-  return parse(data, ext);
+  return parse(data, type);
+};
+
+const buildAst = (data1, data2) => {
+  const keys = union(Object.keys(data1), Object.keys(data2));
+
+  const func = (key) => {
+    const value1 = data1[key];
+    const value2 = data2[key];
+
+    if (value1 instanceof Object && value2 instanceof Object) {
+      return { type: 'compare', key, value1: buildAst(value1, value2) };
+    }
+    if (has(data1, key) && !has(data2, key)) {
+      return { type: 'delete', key, value1 };
+    }
+    if (!has(data1, key) && has(data2, key)) {
+      return { type: 'add', key, value2 };
+    }
+    if (value1 === value2) {
+      return {
+        type: 'equal', key, value1, value2,
+      };
+    }
+    return {
+      type: 'replace', key, value1, value2,
+    };
+  };
+
+  return keys.map(func);
 };
 
 const genDiff = (firstConfig, secondConfig, format) => {
@@ -21,19 +50,4 @@ const genDiff = (firstConfig, secondConfig, format) => {
   return render(diff, format);
 };
 
-const program = () => {
-  commander
-    .version('1.1.0')
-    .description('Compares two configuration files and shows a difference.')
-    .option('-f, --format <type>', 'output format [pretty]', 'pretty')
-    .arguments('<firstConfig> <secondConfig>')
-    .action((firstConfig, secondConfig) => {
-      const result = genDiff(firstConfig, secondConfig, commander.format);
-      console.log(`\n${result}\n`);
-    });
-
-  commander.parse(process.argv);
-};
-
 export default genDiff;
-export { program };

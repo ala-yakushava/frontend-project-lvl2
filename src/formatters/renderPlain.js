@@ -7,10 +7,12 @@ const convert = (item) => {
 const buildPath = (dir, base) => [dir, base].filter(i => i !== '').join('.');
 
 const inter = (diff, path = '') => {
-  const func = ([type, key, value1, value2 = null]) => {
+  const func = ({
+    type, key, value1 = null, value2 = null,
+  }) => {
     const fullPath = buildPath(path, key);
     const removedValue = convert(value1);
-    const currentValue = convert(value2 !== null ? value2 : value1);
+    const currentValue = convert(value2);
 
     const lines = {
       compare: () => inter(value1, fullPath),
