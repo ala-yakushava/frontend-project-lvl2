@@ -12,18 +12,16 @@ const convert = (item, gap) => {
 
 const inter = (diff, tabCount) => {
   const func = ({
-    type, key, value1 = null, value2 = null,
+    type, key, removedValue = null, currentValue = null,
   }) => {
     const gap = tab.repeat(tabCount);
-    const removedValue = convert(value1, gap);
-    const currentValue = convert(value2, gap);
 
     const lines = {
-      compare: () => `${gap}${tab}${key}: {\n${inter(value1, tabCount + tabStep)}\n${gap}${tab}}`,
-      equal: () => `${gap}${tab}${key}: ${currentValue}`,
-      delete: () => `${gap}- ${key}: ${removedValue}`,
-      add: () => `${gap}+ ${key}: ${currentValue}`,
-      replace: () => [lines.add(), lines.delete()],
+      compared: () => `${gap}${tab}${key}: {\n${inter(currentValue, tabCount + tabStep)}\n${gap}${tab}}`,
+      equal: () => `${gap}${tab}${key}: ${convert(currentValue, gap)}`,
+      removed: () => `${gap}- ${key}: ${convert(removedValue, gap)}`,
+      added: () => `${gap}+ ${key}: ${convert(currentValue, gap)}`,
+      replaced: () => [lines.added(), lines.removed()],
     };
 
     return lines[type]();

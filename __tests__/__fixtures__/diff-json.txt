@@ -1,20 +1,20 @@
 [
   {
-    "type": "compare",
+    "type": "compared",
     "key": "common",
-    "value": [
+    "currentValue": [
       {
         "type": "equal",
         "key": "setting1",
-        "value": "Value 1"
+        "currentValue": "Value 1"
       },
       {
-        "type": "delete",
+        "type": "removed",
         "key": "setting2",
-        "value": "200"
+        "removedValue": "200"
       },
       {
-        "type": "replace",
+        "type": "replaced",
         "key": "setting3",
         "removedValue": true,
         "currentValue": {
@@ -22,46 +22,46 @@
         }
       },
       {
-        "type": "compare",
+        "type": "compared",
         "key": "setting6",
-        "value": [
+        "currentValue": [
           {
             "type": "equal",
             "key": "key",
-            "value": "value"
+            "currentValue": "value"
           },
           {
-            "type": "add",
+            "type": "added",
             "key": "ops",
-            "value": "vops"
+            "currentValue": "vops"
           }
         ]
       },
       {
-        "type": "add",
+        "type": "added",
         "key": "follow",
-        "value": false
+        "currentValue": false
       },
       {
-        "type": "add",
+        "type": "added",
         "key": "setting4",
-        "value": "blah blah"
+        "currentValue": "blah blah"
       },
       {
-        "type": "add",
+        "type": "added",
         "key": "setting5",
-        "value": {
+        "currentValue": {
           "key5": "value5"
         }
       }
     ]
   },
   {
-    "type": "compare",
+    "type": "compared",
     "key": "group1",
-    "value": [
+    "currentValue": [
       {
-        "type": "replace",
+        "type": "replaced",
         "key": "baz",
         "removedValue": "bas",
         "currentValue": "bars"
@@ -69,10 +69,10 @@
       {
         "type": "equal",
         "key": "foo",
-        "value": "bar"
+        "currentValue": "bar"
       },
       {
-        "type": "replace",
+        "type": "replaced",
         "key": "nest",
         "removedValue": {
           "key": "value"
@@ -82,16 +82,16 @@
     ]
   },
   {
-    "type": "delete",
+    "type": "removed",
     "key": "group2",
-    "value": {
+    "removedValue": {
       "abc": "12345"
     }
   },
   {
-    "type": "add",
+    "type": "added",
     "key": "group3",
-    "value": {
+    "currentValue": {
       "fee": "100500"
     }
   }

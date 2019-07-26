@@ -8,18 +8,16 @@ const buildPath = (dir, base) => [dir, base].filter(i => i !== '').join('.');
 
 const inter = (diff, path = '') => {
   const func = ({
-    type, key, value1 = null, value2 = null,
+    type, key, removedValue = null, currentValue = null,
   }) => {
     const fullPath = buildPath(path, key);
-    const removedValue = convert(value1);
-    const currentValue = convert(value2);
 
     const lines = {
-      compare: () => inter(value1, fullPath),
+      compared: () => inter(currentValue, fullPath),
       equal: () => '',
-      delete: () => `Property '${fullPath}' was removed`,
-      add: () => `Property '${fullPath}' was added with value: ${currentValue}`,
-      replace: () => `Property '${fullPath}' was updated. From ${removedValue} to ${currentValue}`,
+      removed: () => `Property '${fullPath}' was removed`,
+      added: () => `Property '${fullPath}' was added with value: ${convert(currentValue)}`,
+      replaced: () => `Property '${fullPath}' was updated. From ${convert(removedValue)} to ${convert(currentValue)}`,
     };
 
     return lines[type]();

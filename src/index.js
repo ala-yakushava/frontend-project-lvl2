@@ -21,21 +21,21 @@ const buildAst = (data1, data2) => {
     const value2 = data2[key];
 
     if (value1 instanceof Object && value2 instanceof Object) {
-      return { type: 'compare', key, value1: buildAst(value1, value2) };
+      return { type: 'compared', key, currentValue: buildAst(value1, value2) };
     }
     if (has(data1, key) && !has(data2, key)) {
-      return { type: 'delete', key, value1 };
+      return { type: 'removed', key, removedValue: value1 };
     }
     if (!has(data1, key) && has(data2, key)) {
-      return { type: 'add', key, value2 };
+      return { type: 'added', key, currentValue: value2 };
     }
     if (value1 === value2) {
       return {
-        type: 'equal', key, value1, value2,
+        type: 'equal', key, currentValue: value1,
       };
     }
     return {
-      type: 'replace', key, value1, value2,
+      type: 'replaced', key, removedValue: value1, currentValue: value2,
     };
   };
 
